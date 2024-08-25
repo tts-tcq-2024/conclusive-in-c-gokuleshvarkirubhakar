@@ -49,9 +49,9 @@ void sendToEmail(BreachType breachType) {
   const char* recepient = "a.b@c.com";
 
   void (*emailFunction[MAX_BREACH_TYPE])(const char*) = {
-    sendNormalLvlAlertToEmail,
-    sendLowBreachAlertToEmail,
-    sendHighBreachAlertToEmail,
+    sendLowBreachEmailAlert,
+    sendHighBreachEmailAlert,
+    sendNormalLvlEmailAlert,
   };
 
   if(breachType < MAX_BREACH_TYPE) {
