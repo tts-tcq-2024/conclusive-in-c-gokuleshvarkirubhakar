@@ -3,7 +3,19 @@
 #include "send_breach_alerts.h"
 #include "send_email_alerts.h"
 
-static void sendToController(BreachType breachType);
+#define TEST_ENVIRONMENT
+
+int controllerAlertCount = 0;
+
+#ifdef TEST_ENVIRONMENT
+#define sendAlertToController sendToControllerStub
+#else
+#define sendAlertToController sendToController
+#endif
+
+static void sendToControllerStub(BreachType breachType) {
+    controllerAlertCount++;
+}
 
 static void sendToController(BreachType breachType) {
   const unsigned short header = 0xfeed;
@@ -12,7 +24,7 @@ static void sendToController(BreachType breachType) {
 
 void alertBreachToTarget(BreachType breachType, AlertTarget alertTarget) {
   void (*alertFunction[MAX_TARGETS])(BreachType) = {
-    sendToController,
+    sendAlertToController,
     sendToEmail,
   };
 
